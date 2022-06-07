@@ -16,9 +16,10 @@ public:
     ~next();
 
 private slots:
-    void on_actionOpen_triggered(bool checked);
+    void on_actionOpen_triggered();
 
 private:
     Ui::next *ui;
+    QImage displayed_image;
 };
 #endif // NEXT_H
