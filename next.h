@@ -21,5 +21,7 @@ private slots:
 private:
     Ui::next *ui;
     QImage displayed_image;
+
+    void init_ui();
 };
 #endif // NEXT_H

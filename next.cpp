@@ -41,6 +41,12 @@ next::next(QWidget *parent)
     this->resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
 }
 
+
+void next::init_ui()
+{
+}
+
+
 next::~next()
 {
     delete ui;
@@ -66,5 +72,6 @@ void next::on_actionOpen_triggered()
     QImage im(fileName);
     ui->labelDisplayedImage->setPixmap(QPixmap::fromImage(im));
     ui->labelDisplayedImage->resize(ui->labelDisplayedImage->pixmap().size());
+    ui->labelDisplayedImage->setAlignment(Qt::AlignCenter);
 }
 
