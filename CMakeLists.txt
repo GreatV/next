@@ -17,6 +17,9 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 
+set(nlohmann_json_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/third_party/json/single_include)
+include_directories(${nlohmann_json_INCLUDE_DIRS})
+
 set(TS_FILES next_zh_CN.ts)
 
 set(PROJECT_SOURCES
