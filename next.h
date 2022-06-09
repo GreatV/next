@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QLabel>
 
+#include <string>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class next; }
 QT_END_NAMESPACE
@@ -21,9 +23,12 @@ private slots:
 
 private:
     Ui::next *ui;
-    QImage displayed_image;
 
     QLabel* status_message_label;
+    std::string settings_config_filename;
+
+    int current_image_index;
+
     void init_ui();
 };
 #endif // NEXT_H
