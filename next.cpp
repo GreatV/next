@@ -53,10 +53,21 @@ next::next(QWidget *parent)
 
     ui->setupUi(this);
 
-    this->resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
+    init_ui();
 }
 
-void next::init_ui() {}
+void next::init_ui()
+{
+    this->resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
+
+    // create configs dir if not exists
+    QString configs_dir_name(".");
+    QDir configs_dir(configs_dir_name);
+    if (!configs_dir.exists("configs"))
+    {
+        configs_dir.mkdir("configs");
+    }
+}
 
 next::~next()
 {
@@ -66,13 +77,14 @@ next::~next()
 void next::on_actionOpen_triggered()
 {
     qDebug() << "action Open is triggered.";
-    std::ifstream settings_file("./configs/settings.json");
+    std::ifstream settings_file("configs/settings.json");
     nlohmann::json settings;
-    QString current_dir("~/");
+    QString current_dir(".");
     if (settings_file)
     {
         settings = nlohmann::json::parse(settings_file);
         current_dir = QString(settings.at("current_dir").get<std::string>().c_str());
+        qDebug() << "Current dir: " << current_dir;
         settings_file.close();
 
     }
@@ -87,8 +99,9 @@ void next::on_actionOpen_triggered()
     auto file_info = QFileInfo(fileName);
     settings["current_dir"] = file_info.dir().absolutePath().toStdString();
     std::string settings_string = settings.dump();
-    std::ofstream save_settings("./config/settings.json");
-    save_settings.write(settings_string.c_str(), settings_string.size());
+    qDebug() << "settings content: " << QString(settings_string.c_str());
+    std::ofstream save_settings("configs/settings.json");
+    save_settings << settings_string;
     save_settings.close();
     //  cv::Mat image = cv::imread(fileName.toStdString());
     //  resize image when image is too large or too small
