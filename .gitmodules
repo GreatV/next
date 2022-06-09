@@ -1,4 +1,4 @@
-[submodule ".\\third_party\\json"]
-	path = .\\third_party\\json
+[submodule "third_party/json"]
+	path = third_party/json
 	url = https://github.com/nlohmann/json.git
 	branch = release/3.10.5
