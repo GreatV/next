@@ -113,7 +113,7 @@
             </spacer>
            </item>
            <item>
-            <widget class="QLabel" name="labelDisplayedImage">
+            <widget class="ImageCanvas" name="labelDisplayedImage">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -221,6 +221,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ImageCanvas</class>
+   <extends>QLabel</extends>
+   <header>imagecanvas.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

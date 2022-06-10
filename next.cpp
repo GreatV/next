@@ -50,9 +50,13 @@ next::next(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::next)
 {
-    status_message_label = nullptr;
+    status_message_image = new QLabel();
+    status_message_position = new QLabel();
+
     settings_config_filename = std::string("configs/settings.json");
     current_image_index = 0;
+    last_point = QPoint(0, 0);
+    cursor_changed = false;
     ui->setupUi(this);
 
     init_ui();
@@ -60,6 +64,13 @@ next::next(QWidget *parent)
 
 void next::init_ui()
 {
+    ui->labelDisplayedImage->setAttribute(Qt::WA_Hover, true);
+    ui->labelDisplayedImage->installEventFilter(this);
+
+    status_message_position->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    ui->statusbar->addWidget(status_message_position, 1);
+    ui->statusbar->addWidget(status_message_image, 0);
+
     this->resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
 
     // create configs dir if not exists
@@ -73,6 +84,40 @@ void next::init_ui()
 next::~next()
 {
     delete ui;
+}
+
+bool next::eventFilter(QObject *object, QEvent *event)
+{
+    if (object == ui->labelDisplayedImage && !ui->labelDisplayedImage->pixmap().isNull()) {
+        if (event->type() == QEvent::HoverMove) {
+            auto *hover_event = (QHoverEvent *) event;
+            last_point = hover_event->position().toPoint();
+
+            auto message = QString("(%1, %2)").arg(last_point.x()).arg(last_point.y());
+            status_message_position->setText(message);
+
+            //            qDebug() << "Current Hover Position: " << last_point;
+            return true;
+        }
+
+        if (event->type() == QEvent::HoverEnter && !cursor_changed) {
+            QCursor cursor(Qt::CrossCursor);
+            this->setCursor(cursor);
+            cursor_changed = true;
+
+            return true;
+        }
+
+        if (event->type() == QEvent::HoverLeave && cursor_changed) {
+            QCursor cursor(Qt::ArrowCursor);
+            this->setCursor(cursor);
+            cursor_changed = false;
+
+            return true;
+        }
+    }
+
+    return QWidget::eventFilter(object, event);
 }
 
 void next::on_actionOpen_triggered()
@@ -132,18 +177,12 @@ void next::on_actionOpen_triggered()
     ui->labelDisplayedImage->setAlignment(Qt::AlignCenter);
 
     // show image information in the status bar
-    if (status_message_label) {
-        ui->statusbar->removeWidget(status_message_label);
-    } else {
-        auto message = QString("%1% %2x%3 %4")
-                           .arg(resize_ratio * 100)
-                           .arg(raw_width)
-                           .arg(raw_height)
-                           .arg(raw_depth);
-        status_message_label = new QLabel(message);
-        status_message_label->setAlignment(Qt::AlignRight);
-        ui->statusbar->addWidget(status_message_label, 1);
-    }
+    auto message = QString("%1% %2x%3 %4")
+                       .arg(resize_ratio * 100)
+                       .arg(raw_width)
+                       .arg(raw_height)
+                       .arg(raw_depth);
+    status_message_image->setText(message);
 
     // find all image file in current dir
     QDir current_dir(current_dir_name);

@@ -21,13 +21,20 @@ public:
 private slots:
     void on_actionOpen_triggered();
 
+protected:
+    bool eventFilter(QObject *object, QEvent *event) override;
+
 private:
     Ui::next *ui;
 
-    QLabel* status_message_label;
+    QLabel* status_message_image;
+    QLabel* status_message_position;
+
+    QPoint last_point;
     std::string settings_config_filename;
 
     int current_image_index;
+    bool cursor_changed;
 
     void init_ui();
 };

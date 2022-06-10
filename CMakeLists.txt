@@ -27,6 +27,8 @@ set(PROJECT_SOURCES
         next.cpp
         next.h
         next.ui
+        imagecanvas.cpp
+        imagecanvas.h
         ${TS_FILES}
 )
 
