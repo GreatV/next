@@ -171,10 +171,12 @@ void next::on_actionOpen_triggered()
     auto resize_ratio = w > h ? w * 1.0f / raw_width : h * 1.0f / raw_height;
 
     auto scaled_size(QSize(raw_width * resize_ratio, raw_height * resize_ratio));
+    qDebug() << "Raw size: (" << raw_width << ", " << raw_height << ")" << "sclaed size: " << scaled_size;
     QImage dispalyed_image = image.scaled(scaled_size);
 
     ui->labelDisplayedImage->setPixmap(QPixmap::fromImage(dispalyed_image));
     ui->labelDisplayedImage->setAlignment(Qt::AlignCenter);
+    ui->labelDisplayedImage->adjustSize();
 
     // show image information in the status bar
     auto message = QString("%1% %2x%3 %4")
