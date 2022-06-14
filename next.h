@@ -21,6 +21,8 @@ public:
 private slots:
     void on_actionOpen_triggered();
 
+    void on_actionExit_triggered();
+
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 

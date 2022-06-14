@@ -6,6 +6,13 @@
 #include <QObject>
 #include <QWidget>
 
+
+enum drawShape{
+    Point = 0,
+    Rect,
+    };
+
+
 class ImageCanvas : public QLabel
 {
     Q_OBJECT
@@ -28,6 +35,8 @@ private:
     QPoint last_point;
     QPoint end_point;
     bool labeling;
+
+    void drawShapeTo(int draw_shape_type = 1);
 };
 
 #endif // IMAGECANVAS_H

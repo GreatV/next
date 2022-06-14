@@ -64,6 +64,7 @@ next::next(QWidget *parent)
 
 void next::init_ui()
 {
+    ui->labelDisplayedImage->sizeHint();
     ui->labelDisplayedImage->setAttribute(Qt::WA_Hover, true);
     ui->labelDisplayedImage->installEventFilter(this);
 
@@ -171,7 +172,8 @@ void next::on_actionOpen_triggered()
     auto resize_ratio = w > h ? w * 1.0f / raw_width : h * 1.0f / raw_height;
 
     auto scaled_size(QSize(raw_width * resize_ratio, raw_height * resize_ratio));
-    qDebug() << "Raw size: (" << raw_width << ", " << raw_height << ")" << "sclaed size: " << scaled_size;
+    qDebug() << "Raw size: (" << raw_width << ", " << raw_height << ")"
+             << "sclaed size: " << scaled_size;
     QImage dispalyed_image = image.scaled(scaled_size);
 
     ui->labelDisplayedImage->setPixmap(QPixmap::fromImage(dispalyed_image));
@@ -209,4 +211,9 @@ void next::on_actionOpen_triggered()
         qDebug() << "Image list: \n"
                  << image_list << "\nCurrent select image index: " << current_image_index
                  << "\nCurrent image filename: " << file_info.fileName();
+}
+
+void next::on_actionExit_triggered()
+{
+    qApp->exit(0);
 }

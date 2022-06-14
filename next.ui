@@ -205,7 +205,7 @@
      <string>File(&amp;F)</string>
     </property>
     <addaction name="actionOpen"/>
-    <addaction name="actionOpenDir"/>
+    <addaction name="actionExit"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -215,9 +215,12 @@
     <string>Open</string>
    </property>
   </action>
-  <action name="actionOpenDir">
+  <action name="actionExit">
    <property name="text">
-    <string>Open Dir</string>
+    <string>Exit(&amp;X)</string>
+   </property>
+   <property name="toolTip">
+    <string>Exit</string>
    </property>
   </action>
  </widget>
