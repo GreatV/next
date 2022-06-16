@@ -125,7 +125,7 @@ bool next::eventFilter(QObject *object, QEvent *event)
             labeling = true;
         }
 
-        if (event->type() == QEvent::MouseButtonRelease)
+        if (event->type() == QEvent::MouseButtonRelease && labeling)
         {
             labeling = false;
         }
