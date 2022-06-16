@@ -56,7 +56,10 @@ next::next(QWidget *parent)
     settings_config_filename = std::string("configs/settings.json");
     current_image_index = 0;
     last_point = QPoint(0, 0);
+
     cursor_changed = false;
+    labeling = false;
+
     ui->setupUi(this);
 
     init_ui();
@@ -116,6 +119,16 @@ bool next::eventFilter(QObject *object, QEvent *event)
 
             return true;
         }
+
+        if (event->type() == QEvent::MouseButtonPress)
+        {
+            labeling = true;
+        }
+
+        if (event->type() == QEvent::MouseButtonRelease)
+        {
+            labeling = false;
+        }
     }
 
     return QWidget::eventFilter(object, event);
@@ -174,7 +187,7 @@ void next::on_actionOpen_triggered()
     auto scaled_size(QSize(raw_width * resize_ratio, raw_height * resize_ratio));
     qDebug() << "Raw size: (" << raw_width << ", " << raw_height << ")"
              << "sclaed size: " << scaled_size;
-    QImage dispalyed_image = image.scaled(scaled_size);
+    dispalyed_image = image.scaled(scaled_size);
 
     ui->labelDisplayedImage->setPixmap(QPixmap::fromImage(dispalyed_image));
     ui->labelDisplayedImage->setAlignment(Qt::AlignCenter);

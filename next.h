@@ -33,10 +33,13 @@ private:
     QLabel* status_message_position;
 
     QPoint last_point;
+    QImage dispalyed_image;
+
     std::string settings_config_filename;
 
     int current_image_index;
     bool cursor_changed;
+    bool labeling;
 
     void init_ui();
 };

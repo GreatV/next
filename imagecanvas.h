@@ -5,6 +5,7 @@
 #include <QMouseEvent>
 #include <QObject>
 #include <QWidget>
+#include <QPainter>
 
 
 enum drawShape{
@@ -20,14 +21,12 @@ public:
     ImageCanvas(QWidget *parent = nullptr);
     ~ImageCanvas();
 
-    QPoint getMousePosition();
-
 protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
 
-//    void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent *event);
 
 private:
     QImage image;
@@ -36,7 +35,8 @@ private:
     QPoint end_point;
     bool labeling;
 
-    void drawShapeTo(int draw_shape_type = 1);
+    QPixmap ref_image;
+    QPainter painter;
 };
 
 #endif // IMAGECANVAS_H
