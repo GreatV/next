@@ -55,7 +55,7 @@ next::next(QWidget *parent)
 
     settings_config_filename = std::string("configs/settings.json");
     current_image_index = 0;
-    last_point = QPoint(0, 0);
+    current_point = QPoint(0, 0);
 
     cursor_changed = false;
     labeling = false;
@@ -95,12 +95,12 @@ bool next::eventFilter(QObject *object, QEvent *event)
     if (object == ui->labelDisplayedImage && !ui->labelDisplayedImage->pixmap().isNull()) {
         if (event->type() == QEvent::HoverMove) {
             auto *hover_event = (QHoverEvent *) event;
-            last_point = hover_event->position().toPoint();
+            current_point = hover_event->position().toPoint();
 
-            auto message = QString("(%1, %2)").arg(last_point.x()).arg(last_point.y());
+            auto message = QString("(%1, %2)").arg(current_point.x()).arg(current_point.y());
             status_message_position->setText(message);
 
-            //            qDebug() << "Current Hover Position: " << last_point;
+            //            qDebug() << "Current Hover Position: " << current_point;
             return true;
         }
 
@@ -122,7 +122,11 @@ bool next::eventFilter(QObject *object, QEvent *event)
 
         if (event->type() == QEvent::MouseButtonPress)
         {
-            labeling = true;
+            auto *mouse_event = (QMouseEvent *)event;
+            if (mouse_event->button() == Qt::LeftButton)
+            {
+
+            }
         }
 
         if (event->type() == QEvent::MouseButtonRelease && labeling)

@@ -32,7 +32,7 @@ private:
     QLabel* status_message_image;
     QLabel* status_message_position;
 
-    QPoint last_point;
+    QPoint current_point;
     QImage dispalyed_image;
 
     std::string settings_config_filename;
