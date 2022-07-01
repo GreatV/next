@@ -29,14 +29,15 @@ protected:
     void paintEvent(QPaintEvent *event);
 
 private:
-    QImage image;
-
     QPoint last_point;
     QPoint end_point;
     bool labeling;
+    bool copy_once;
+    bool drawStarted;
 
-    QPixmap ref_image;
+    QPixmap ref_pixmap;
     QPainter painter;
+    QRect draw_rect;
 };
 
 #endif // IMAGECANVAS_H
