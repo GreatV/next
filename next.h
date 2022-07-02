@@ -4,7 +4,10 @@
 #include <QMainWindow>
 #include <QLabel>
 
+#include "setlabel.h"
+
 #include <string>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class next; }
@@ -35,11 +38,12 @@ private:
     QPoint current_point;
     QImage dispalyed_image;
 
+    SetLabel* setlabelpopup;
+
     std::string settings_config_filename;
 
     int current_image_index;
     bool cursor_changed;
-    bool labeling;
 
     void init_ui();
 };

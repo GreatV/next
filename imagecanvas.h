@@ -32,12 +32,12 @@ private:
     QPoint last_point;
     QPoint end_point;
     bool labeling;
+    bool mouse_pressed;
     bool copy_once;
-    bool drawStarted;
 
     QPixmap ref_pixmap;
     QPainter painter;
-    QRect draw_rect;
+    QRect drawn_rectangle;
 };
 
 #endif // IMAGECANVAS_H

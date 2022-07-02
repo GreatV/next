@@ -58,11 +58,11 @@ next::next(QWidget *parent)
     current_point = QPoint(0, 0);
 
     cursor_changed = false;
-    labeling = false;
 
     ui->setupUi(this);
 
     init_ui();
+    connect(ui->labelDisplayedImage, SIGNAL(mousePress(QMouseEvent*)), setlabelpopup, SLOT(show()));
 }
 
 void next::init_ui()
@@ -75,7 +75,8 @@ void next::init_ui()
     ui->statusbar->addWidget(status_message_position, 1);
     ui->statusbar->addWidget(status_message_image, 0);
 
-    this->resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
+//    this->resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
+    this->showMaximized();
 
     // create configs dir if not exists
     QString configs_dir_name(".");
@@ -118,20 +119,6 @@ bool next::eventFilter(QObject *object, QEvent *event)
             cursor_changed = false;
 
             return true;
-        }
-
-        if (event->type() == QEvent::MouseButtonPress)
-        {
-            auto *mouse_event = (QMouseEvent *)event;
-            if (mouse_event->button() == Qt::LeftButton)
-            {
-
-            }
-        }
-
-        if (event->type() == QEvent::MouseButtonRelease && labeling)
-        {
-            labeling = false;
         }
     }
 
