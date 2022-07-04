@@ -62,7 +62,6 @@ next::next(QWidget *parent)
     ui->setupUi(this);
 
     init_ui();
-    connect(ui->labelDisplayedImage, SIGNAL(mousePress(QMouseEvent*)), setlabelpopup, SLOT(show()));
 }
 
 void next::init_ui()
