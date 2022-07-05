@@ -3,9 +3,6 @@
 
 #include <QMainWindow>
 #include <QLabel>
-
-#include "setlabel.h"
-
 #include <string>
 
 
@@ -37,8 +34,6 @@ private:
 
     QPoint current_point;
     QImage dispalyed_image;
-
-    SetLabel* setlabelpopup;
 
     std::string settings_config_filename;
 

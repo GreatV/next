@@ -29,9 +29,6 @@ set(PROJECT_SOURCES
         next.ui
         imagecanvas.cpp
         imagecanvas.h
-        setlabel.h
-        setlabel.cpp
-        setlabel.ui
         ${TS_FILES}
 )
 
