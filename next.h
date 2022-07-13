@@ -40,6 +40,11 @@ private:
     int current_image_index;
     bool cursor_changed;
 
+    std::vector<int> label_history;
+    std::vector<std::string> names;
+
+    std::map<std::string, int> label_id_map;
+
     void init_ui();
 };
 #endif // NEXT_H

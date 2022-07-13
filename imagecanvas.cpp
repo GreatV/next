@@ -1,6 +1,7 @@
 #include "imagecanvas.h"
 #include <QPainter>
 
+
 ImageCanvas::ImageCanvas(QWidget *parent)
     : QLabel(parent)
 {
@@ -33,7 +34,6 @@ void ImageCanvas::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         mouse_pressed = false;
-
         this->update();
     }
 }

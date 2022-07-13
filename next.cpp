@@ -9,6 +9,8 @@
 #include <QImageWriter>
 #include <QScreen>
 #include <QStandardPaths>
+#include <QInputDialog>
+#include <QDir>
 
 #include <opencv2/opencv.hpp>
 
@@ -118,6 +120,29 @@ bool next::eventFilter(QObject *object, QEvent *event)
             cursor_changed = false;
 
             return true;
+        }
+
+        if (event->type() == QEvent::MouseButtonRelease)
+        {
+            bool ok;
+            QString text = QInputDialog::getText(this, tr("set label"),
+                                                 tr("label:"), QLineEdit::Normal,
+                                                 "", &ok);
+            if (ok && !text.isEmpty())
+            {
+                auto name = text.toStdString();
+                // not found text in names
+                if (std::find(names.begin(), names.end(), name) == names.end())
+                {
+                    names.push_back(name);
+                    for (auto idx = 0; idx < names.size(); ++idx)
+                    {
+                        label_id_map.insert(std::pair<std::string, int>(name, idx));
+                    }
+                }
+                label_history.push_back(label_id_map[name]);
+            }
+            qDebug() << "Input label: " << text;
         }
     }
 
