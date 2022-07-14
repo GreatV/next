@@ -4,6 +4,17 @@
 #include <QMainWindow>
 #include <QLabel>
 #include <string>
+#include <QUndoStack>
+
+
+class ChangeLabeledItemCommand : public QUndoCommand
+{
+public:
+    ChangeLabeledItemCommand(QUndoCommand *parent=nullptr);
+    void undo();
+    void redo();
+private:
+};
 
 
 QT_BEGIN_NAMESPACE
@@ -34,6 +45,8 @@ private:
 
     QPoint current_point;
     QImage dispalyed_image;
+
+    QUndoStack *undo_stack;
 
     std::string settings_config_filename;
 

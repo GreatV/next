@@ -197,7 +197,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>17</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -207,7 +207,21 @@
     <addaction name="actionOpen"/>
     <addaction name="actionExit"/>
    </widget>
+   <widget class="QMenu" name="menuEdit_E">
+    <property name="title">
+     <string>Edit(&amp;E)</string>
+    </property>
+    <addaction name="actionGreate_Polygons"/>
+    <addaction name="actionGreate_Rectangle"/>
+    <addaction name="actionCreate_Circle"/>
+    <addaction name="actionCreate_Line"/>
+    <addaction name="actionCreate_Point"/>
+    <addaction name="separator"/>
+    <addaction name="actionUndo"/>
+    <addaction name="actionRedo"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuEdit_E"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpen">
@@ -221,6 +235,47 @@
    </property>
    <property name="toolTip">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionGreate_Polygons">
+   <property name="text">
+    <string>Create Polygon</string>
+   </property>
+  </action>
+  <action name="actionGreate_Rectangle">
+   <property name="text">
+    <string>Create Rectangle</string>
+   </property>
+  </action>
+  <action name="actionCreate_Circle">
+   <property name="text">
+    <string>Create Circle</string>
+   </property>
+  </action>
+  <action name="actionCreate_Line">
+   <property name="text">
+    <string>Create Line</string>
+   </property>
+  </action>
+  <action name="actionCreate_Point">
+   <property name="text">
+    <string>Create Point</string>
+   </property>
+  </action>
+  <action name="actionUndo">
+   <property name="text">
+    <string>Undo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
+  </action>
+  <action name="actionRedo">
+   <property name="text">
+    <string>Redo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+Z</string>
    </property>
   </action>
  </widget>
