@@ -61,6 +61,14 @@ next::next(QWidget *parent)
 
     cursor_changed = false;
 
+    undo_stack = new QUndoStack(this);
+    ui->actionUndo = undo_stack->createUndoAction(this, tr("undo"));
+    ui->actionRedo = undo_stack->createUndoAction(this, tr("redo"));
+
+    label_combobox = new QComboBox(this);
+
+    QObject::connect(label_combobox, SIGNAL(activate(int)), this, SLOT(changeItemsLabel));
+
     ui->setupUi(this);
 
     init_ui();
@@ -140,6 +148,7 @@ bool next::eventFilter(QObject *object, QEvent *event)
                         label_id_map.insert(std::pair<std::string, int>(name, idx));
                     }
                 }
+
                 label_history.push_back(label_id_map[name]);
             }
             qDebug() << "Input label: " << text;
@@ -244,4 +253,26 @@ void next::on_actionOpen_triggered()
 void next::on_actionExit_triggered()
 {
     qApp->exit(0);
+}
+
+void next::changeItemsLabel()
+{
+    int current_index = label_combobox->currentIndex();
+    QImage current_image = label_combobox->itemData(current_index).value<QImage>();
+    undo_stack->push(new ChangeLabeledItemCommand());
+}
+
+ChangeLabeledItemCommand::ChangeLabeledItemCommand(QUndoCommand *parent)
+{
+
+}
+
+void ChangeLabeledItemCommand::undo()
+{
+
+}
+
+void ChangeLabeledItemCommand::redo()
+{
+
 }

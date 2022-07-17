@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <string>
 #include <QUndoStack>
+#include <QComboBox>
 
 
 class ChangeLabeledItemCommand : public QUndoCommand
@@ -14,6 +15,7 @@ public:
     void undo();
     void redo();
 private:
+    QImage image;
 };
 
 
@@ -34,6 +36,8 @@ private slots:
 
     void on_actionExit_triggered();
 
+    void changeItemsLabel();
+
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
@@ -47,6 +51,7 @@ private:
     QImage dispalyed_image;
 
     QUndoStack *undo_stack;
+    QComboBox *label_combobox;
 
     std::string settings_config_filename;
 
