@@ -75,7 +75,7 @@ bool next::eventFilter(QObject *object, QEvent *event)
         }
 
         if (event->type() == QEvent::HoverEnter && !cursor_changed) {
-#ifdef Q_WS_WIN
+#if defined(Q_OS_WIN)
             QCursor cursor(Qt::CrossCursor);
             this->setCursor(cursor);
 #endif
@@ -85,7 +85,7 @@ bool next::eventFilter(QObject *object, QEvent *event)
         }
 
         if (event->type() == QEvent::HoverLeave && cursor_changed) {
-#ifdef Q_WS_WIN
+#if defined(Q_OS_WIN)
             QCursor cursor(Qt::ArrowCursor);
             this->setCursor(cursor);
 #endif
