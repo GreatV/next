@@ -8,17 +8,6 @@
 #include <QComboBox>
 
 
-class ChangeLabeledItemCommand : public QUndoCommand
-{
-public:
-    ChangeLabeledItemCommand(QUndoCommand *parent=nullptr);
-    void undo();
-    void redo();
-private:
-    QImage image;
-};
-
-
 QT_BEGIN_NAMESPACE
 namespace Ui { class next; }
 QT_END_NAMESPACE
@@ -36,8 +25,6 @@ private slots:
 
     void on_actionExit_triggered();
 
-    void changeItemsLabel();
-
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
@@ -49,9 +36,6 @@ private:
 
     QPoint current_point;
     QImage dispalyed_image;
-
-    QUndoStack *undo_stack;
-    QComboBox *label_combobox;
 
     std::string settings_config_filename;
 

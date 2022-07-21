@@ -4,49 +4,17 @@
 #include <fstream>
 
 #include <QCollator>
+#include <QDir>
 #include <QFileDialog>
 #include <QImageReader>
 #include <QImageWriter>
+#include <QInputDialog>
 #include <QScreen>
 #include <QStandardPaths>
-#include <QInputDialog>
-#include <QDir>
 
 #include <opencv2/opencv.hpp>
 
 #include "nlohmann/json.hpp"
-
-static void QImage2cvMat(QImage &image, cv::Mat &mat)
-{
-    switch (image.format()) {
-    case QImage::Format_ARGB32:
-    case QImage::Format_RGB32:
-    case QImage::Format_ARGB32_Premultiplied:
-        mat = cv::Mat(image.height(),
-                      image.width(),
-                      CV_8UC4,
-                      (void *) image.constBits(),
-                      image.bytesPerLine());
-        break;
-    case QImage::Format_RGB888:
-        mat = cv::Mat(image.height(),
-                      image.width(),
-                      CV_8UC3,
-                      (void *) image.constBits(),
-                      image.bytesPerLine());
-        cv::cvtColor(mat, mat, cv::COLOR_BGR2RGB);
-        break;
-    case QImage::Format_Indexed8:
-        mat = cv::Mat(image.height(),
-                      image.width(),
-                      CV_8UC1,
-                      (void *) image.constBits(),
-                      image.bytesPerLine());
-        break;
-    default:
-        break;
-    }
-}
 
 next::next(QWidget *parent)
     : QMainWindow(parent)
@@ -60,14 +28,6 @@ next::next(QWidget *parent)
     current_point = QPoint(0, 0);
 
     cursor_changed = false;
-
-    undo_stack = new QUndoStack(this);
-    ui->actionUndo = undo_stack->createUndoAction(this, tr("undo"));
-    ui->actionRedo = undo_stack->createUndoAction(this, tr("redo"));
-
-    label_combobox = new QComboBox(this);
-
-    QObject::connect(label_combobox, SIGNAL(activate(int)), this, SLOT(changeItemsLabel));
 
     ui->setupUi(this);
 
@@ -84,7 +44,7 @@ void next::init_ui()
     ui->statusbar->addWidget(status_message_position, 1);
     ui->statusbar->addWidget(status_message_image, 0);
 
-//    this->resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
+    //    this->resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
     this->showMaximized();
 
     // create configs dir if not exists
@@ -115,36 +75,39 @@ bool next::eventFilter(QObject *object, QEvent *event)
         }
 
         if (event->type() == QEvent::HoverEnter && !cursor_changed) {
+#ifdef Q_WS_WIN
             QCursor cursor(Qt::CrossCursor);
             this->setCursor(cursor);
+#endif
             cursor_changed = true;
 
             return true;
         }
 
         if (event->type() == QEvent::HoverLeave && cursor_changed) {
+#ifdef Q_WS_WIN
             QCursor cursor(Qt::ArrowCursor);
             this->setCursor(cursor);
+#endif
             cursor_changed = false;
 
             return true;
         }
 
-        if (event->type() == QEvent::MouseButtonRelease)
-        {
+        if (event->type() == QEvent::MouseButtonRelease) {
             bool ok;
-            QString text = QInputDialog::getText(this, tr("set label"),
-                                                 tr("label:"), QLineEdit::Normal,
-                                                 "", &ok);
-            if (ok && !text.isEmpty())
-            {
+            QString text = QInputDialog::getText(this,
+                                                 tr("set label"),
+                                                 tr("label:"),
+                                                 QLineEdit::Normal,
+                                                 "",
+                                                 &ok);
+            if (ok && !text.isEmpty()) {
                 auto name = text.toStdString();
                 // not found text in names
-                if (std::find(names.begin(), names.end(), name) == names.end())
-                {
+                if (std::find(names.begin(), names.end(), name) == names.end()) {
                     names.push_back(name);
-                    for (auto idx = 0; idx < names.size(); ++idx)
-                    {
+                    for (auto idx = 0; idx < names.size(); ++idx) {
                         label_id_map.insert(std::pair<std::string, int>(name, idx));
                     }
                 }
@@ -253,26 +216,4 @@ void next::on_actionOpen_triggered()
 void next::on_actionExit_triggered()
 {
     qApp->exit(0);
-}
-
-void next::changeItemsLabel()
-{
-    int current_index = label_combobox->currentIndex();
-    QImage current_image = label_combobox->itemData(current_index).value<QImage>();
-    undo_stack->push(new ChangeLabeledItemCommand());
-}
-
-ChangeLabeledItemCommand::ChangeLabeledItemCommand(QUndoCommand *parent)
-{
-
-}
-
-void ChangeLabeledItemCommand::undo()
-{
-
-}
-
-void ChangeLabeledItemCommand::redo()
-{
-
 }
