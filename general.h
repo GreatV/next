@@ -5,10 +5,6 @@
 #define GENERAL_H
 
 
-class general
-{
-public:
-    general();
-};
+bool is_writeable(char* dir);
 
 #endif // GENERAL_H
