@@ -7,6 +7,8 @@
 #include <QUndoStack>
 #include <QComboBox>
 
+#include "nlohmann/json.hpp"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class next; }

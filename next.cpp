@@ -14,8 +14,6 @@
 
 #include <opencv2/opencv.hpp>
 
-#include "nlohmann/json.hpp"
-
 next::next(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::next)
